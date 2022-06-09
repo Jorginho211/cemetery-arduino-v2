@@ -1,0 +1,11 @@
+#define NAVIGATION_SERIAL_ENABLED 0
+
+#define NAVIGATION_SERIAL_BAUD 9600
+
+#define PIN_PAD_UP 23
+#define PIN_PAD_DOWN 25
+#define PIN_PAD_OK 27
+
+#define LCD_ADDRESS 0x20
+#define LCD_COLUMNS 20
+#define LCD_ROWS 4
