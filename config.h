@@ -6,6 +6,8 @@
 #define PIN_PAD_DOWN 25
 #define PIN_PAD_OK 27
 
-#define LCD_ADDRESS 0x20
+#define LCD_ADDRESS 0x27
 #define LCD_COLUMNS 20
 #define LCD_ROWS 4
+
+#define PIN_SWITCH_SYSTEM_STATE 29
