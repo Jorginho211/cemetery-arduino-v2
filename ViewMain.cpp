@@ -1,7 +1,9 @@
 #include "ViewMain.h"
 
+// Vistas requeridas
+#include "ViewMenu.h"
+
 ViewMain::ViewMain(ViewsManager *viewsManager) {
-  Serial.println("AQUI");
   this->m_ViewsManager = viewsManager;
   this->m_Show2Points = true;
 
@@ -10,7 +12,7 @@ ViewMain::ViewMain(ViewsManager *viewsManager) {
 
 void ViewMain::buttonPressed(NavigationAction pressed) { 
   if (pressed == NAVIGATION_OK) {
-    this->m_ViewsManager->setCurrentView(new ViewMain(this->m_ViewsManager));
+    this->m_ViewsManager->setCurrentView(new ViewMenu(this->m_ViewsManager, this), false);
   }
 }
 
@@ -27,7 +29,7 @@ void ViewMain::update(DateTime now) {
     blink = ":";
   
   this->m_StrDatetime = Utils::format00Number(now.day()) + "/" + Utils::format00Number(now.month()) + "/" + String(now.year());
-  this->m_StrDatetime += " - " + Utils::format00Number(now.hour()) + blink + Utils::format00Number(now.minute());  
+  this->m_StrDatetime += " - " + Utils::format00Number(now.hour()) + blink + Utils::format00Number(now.minute());
 }
 
 void ViewMain::draw() {

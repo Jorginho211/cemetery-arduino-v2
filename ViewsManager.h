@@ -9,7 +9,7 @@
       void buttonPressed(NavigationAction pressed);
       void update(DateTime now);
       void draw();
-      void setCurrentView(View *view);
+      void setCurrentView(View *view, bool deleteView = true);
 
       Peripherals *Peripherals;
     private:

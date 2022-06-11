@@ -12,8 +12,8 @@ void ViewsManager::draw() {
   this->m_CurrentView->draw();
 }
 
-void ViewsManager::setCurrentView(View *view) {
-  if (this->m_CurrentView != nullptr)
+void ViewsManager::setCurrentView(View *view, bool deleteView = true) {
+  if (deleteView && this->m_CurrentView != nullptr)
     delete this->m_CurrentView;
     
   this->m_CurrentView = view;
