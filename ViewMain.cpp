@@ -8,6 +8,7 @@ ViewMain::ViewMain(ViewsManager *viewsManager) {
   this->m_Show2Points = true;
 
   this->m_ViewsManager->Peripherals->Lcd->clear();
+  this->m_ViewsManager->Peripherals->Lcd->noCursor();
 }
 
 void ViewMain::buttonPressed(NavigationAction pressed) { 

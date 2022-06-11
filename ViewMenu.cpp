@@ -1,5 +1,8 @@
 #include "ViewMenu.h"
 
+// Vistas requeridas
+#include "ViewConfigDate.h"
+
 ViewMenu::ViewMenu(ViewsManager *viewsManager, ViewMain *viewMain) {
   this->m_ViewsManager = viewsManager;
   this->m_ViewMain = viewMain;
@@ -7,6 +10,7 @@ ViewMenu::ViewMenu(ViewsManager *viewsManager, ViewMain *viewMain) {
   this->m_MenuOption = MENU_CONF_DATE;
 
   this->m_ViewsManager->Peripherals->Lcd->clear();
+  this->m_ViewsManager->Peripherals->Lcd->noCursor();
 }
 
 void ViewMenu::buttonPressed(NavigationAction pressed) {
@@ -30,6 +34,7 @@ void ViewMenu::buttonPressed(NavigationAction pressed) {
   View *nextView = NULL;
   switch(this->m_MenuOption) {
     case MENU_CONF_DATE:
+      nextView = new ViewConfigDate(this->m_ViewsManager);
       break;
     case MENU_CONF_LOUD_SPEAKER:
       break;
