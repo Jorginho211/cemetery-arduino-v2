@@ -3,6 +3,7 @@
 // Vistas requeridas
 #include "ViewConfigDate.h"
 #include "ViewConfigLoudSpeaker.h"
+#include "ViewConfigOpenCloseDoor.h"
 
 ViewMenu::ViewMenu(ViewsManager *viewsManager, ViewMain *viewMain) {
   this->m_ViewsManager = viewsManager;
@@ -41,6 +42,7 @@ void ViewMenu::buttonPressed(NavigationAction pressed) {
       nextView = new ViewConfigLoudSpeaker(this->m_ViewsManager);
       break;
     case MENU_CONF_DOOR:
+      nextView = new ViewConfigOpenCloseDoor(this->m_ViewsManager);
       break;
     case MENU_CONF_DAYS_OF_WEEK:
       break;
