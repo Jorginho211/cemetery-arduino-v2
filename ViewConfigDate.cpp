@@ -6,7 +6,7 @@
 ViewConfigDate::ViewConfigDate(ViewsManager *viewsManager) {
   this->m_ViewsManager = viewsManager;
 
-  this->m_ConfigDateOption = OPTION_DATE_DAY;
+  this->m_ConfigDateOption = CONFIG_DATE_OPTION_DATE_DAY;
   this->m_Date = this->m_ViewsManager->Peripherals->Rtc.now();
 
   this->m_ViewsManager->Peripherals->Lcd->clear();
@@ -16,45 +16,45 @@ void ViewConfigDate::buttonPressed(NavigationAction pressed) {
   switch(pressed) {
     case NAVIGATION_UP:
       switch(this->m_ConfigDateOption) {
-        case OPTION_DATE_DAY:
+        case CONFIG_DATE_OPTION_DATE_DAY:
           this->m_Date = Utils::modifyDateTime(this->m_Date, DATETIME_INCREASE, DATETIME_SECTION_DAY);
           break;
-        case OPTION_DATE_MONTH:
+        case CONFIG_DATE_OPTION_DATE_MONTH:
           this->m_Date = Utils::modifyDateTime(this->m_Date, DATETIME_INCREASE, DATETIME_SECTION_MONTH);
           break;
-        case OPTION_DATE_YEAR:
+        case CONFIG_DATE_OPTION_DATE_YEAR:
           this->m_Date = Utils::modifyDateTime(this->m_Date, DATETIME_INCREASE, DATETIME_SECTION_YEAR);
           break;
-        case OPTION_DATE_HOUR:
+        case CONFIG_DATE_OPTION_DATE_HOUR:
           this->m_Date = Utils::modifyDateTime(this->m_Date, DATETIME_INCREASE, DATETIME_SECTION_HOUR);
           break;
-        case OPTION_DATE_MINUTE:
+        case CONFIG_DATE_OPTION_DATE_MINUTE:
           this->m_Date = Utils::modifyDateTime(this->m_Date, DATETIME_INCREASE, DATETIME_SECTION_MINUTE);
           break;
       }
       break;
     case NAVIGATION_DOWN:
       switch(this->m_ConfigDateOption) {
-        case OPTION_DATE_DAY:
+        case CONFIG_DATE_OPTION_DATE_DAY:
           this->m_Date = Utils::modifyDateTime(this->m_Date, DATETIME_DECREASE, DATETIME_SECTION_DAY);
           break;
-        case OPTION_DATE_MONTH:
+        case CONFIG_DATE_OPTION_DATE_MONTH:
           this->m_Date = Utils::modifyDateTime(this->m_Date, DATETIME_DECREASE, DATETIME_SECTION_MONTH);
           break;
-        case OPTION_DATE_YEAR:
+        case CONFIG_DATE_OPTION_DATE_YEAR:
           this->m_Date = Utils::modifyDateTime(this->m_Date, DATETIME_DECREASE, DATETIME_SECTION_YEAR);
           break;
-        case OPTION_DATE_HOUR:
+        case CONFIG_DATE_OPTION_DATE_HOUR:
           this->m_Date = Utils::modifyDateTime(this->m_Date, DATETIME_DECREASE, DATETIME_SECTION_HOUR);
           break;
-        case OPTION_DATE_MINUTE:
+        case CONFIG_DATE_OPTION_DATE_MINUTE:
           this->m_Date = Utils::modifyDateTime(this->m_Date, DATETIME_DECREASE, DATETIME_SECTION_MINUTE);
           break;
       }
       break;
     case NAVIGATION_OK:
       this->m_ConfigDateOption = (ConfigDateOption) (this->m_ConfigDateOption + 1);
-      if (this->m_ConfigDateOption == OPTION_DATE_COMPLETE) {
+      if (this->m_ConfigDateOption == CONFIG_DATE_OPTION_DATE_COMPLETE) {
         this->m_ViewsManager->Peripherals->Rtc.adjust(this->m_Date);
         this->m_ViewsManager->setCurrentView(new ViewMain(this->m_ViewsManager));
       }
@@ -78,19 +78,19 @@ void ViewConfigDate::draw() {
   peripherals->Lcd->print(nowStr);
 
   switch(this->m_ConfigDateOption){
-    case OPTION_DATE_DAY:
+    case CONFIG_DATE_OPTION_DATE_DAY:
       peripherals->Lcd->setCursor(0,1);
       break;
-    case OPTION_DATE_MONTH:
+    case CONFIG_DATE_OPTION_DATE_MONTH:
       peripherals->Lcd->setCursor(3,1);
       break;
-    case OPTION_DATE_YEAR:
+    case CONFIG_DATE_OPTION_DATE_YEAR:
       peripherals->Lcd->setCursor(6,1);
       break;
-    case OPTION_DATE_HOUR:
+    case CONFIG_DATE_OPTION_DATE_HOUR:
       peripherals->Lcd->setCursor(13,1);
       break;
-    case OPTION_DATE_MINUTE:
+    case CONFIG_DATE_OPTION_DATE_MINUTE:
       peripherals->Lcd->setCursor(16,1);
       break;
   }
