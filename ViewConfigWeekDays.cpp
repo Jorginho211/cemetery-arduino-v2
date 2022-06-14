@@ -29,9 +29,7 @@ void ViewConfigWeekDays::buttonPressed(NavigationAction pressed) {
         return;
       }
 
-      Serial.println(this->m_WeekDays);
       this->m_WeekDays ^= (1 << this->m_ConfigWeekDaysPos);
-      Serial.println(this->m_WeekDays);
       break;
   }
 }

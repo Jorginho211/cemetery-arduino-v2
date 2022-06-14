@@ -13,7 +13,7 @@ ViewMain::ViewMain(ViewsManager *viewsManager) {
 
 void ViewMain::buttonPressed(NavigationAction pressed) { 
   if (pressed == NAVIGATION_OK) {
-    this->m_ViewsManager->setCurrentView(new ViewMenu(this->m_ViewsManager, this), false);
+    this->m_ViewsManager->setCurrentView(new ViewMenu(this->m_ViewsManager));
   }
 }
 
@@ -31,6 +31,8 @@ void ViewMain::update(DateTime now) {
   
   this->m_StrDatetime = Utils::format00Number(now.day()) + "/" + Utils::format00Number(now.month()) + "/" + String(now.year());
   this->m_StrDatetime += " - " + Utils::format00Number(now.hour()) + blink + Utils::format00Number(now.minute());
+
+  this->m_ViewsManager->mainTask(now);
 }
 
 void ViewMain::draw() {

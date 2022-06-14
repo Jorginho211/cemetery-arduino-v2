@@ -21,9 +21,6 @@
       void setCloseDoorTime(DateTime time);
       void setLoudSpeakerTime(DateTime time);
       void setChangedSummerWinterTime(bool changedSummerWinterTime);
-
-      bool isDoorOpen;
-      bool isLoudSpeakerOn;
     private:
       DataManager() = default;
       static DataManager instance;

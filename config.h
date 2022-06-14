@@ -11,3 +11,7 @@
 #define LCD_ROWS 4
 
 #define PIN_SWITCH_SYSTEM_STATE 29
+
+#define PIN_LOUD_SPEAKER 22
+#define PIN_DOOR 24
+#define PIN_LED_SCHEDULE 26

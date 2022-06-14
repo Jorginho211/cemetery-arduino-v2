@@ -4,6 +4,7 @@
   #include "View.h"
   #include "ViewsManager.h"
   #include "Peripherals.h"
+  #include "DataManager.h"
   #include "Utils.h"
 
   class ViewMain: public View {

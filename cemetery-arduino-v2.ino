@@ -22,6 +22,10 @@ void setup() {
   m_Peripherals.initRtc();
   m_Peripherals.initLcd(LCD_ADDRESS, LCD_COLUMNS, LCD_ROWS);
   m_Peripherals.initPinSystemState(PIN_SWITCH_SYSTEM_STATE);
+  m_Peripherals.initPinLoudSpeakerState(PIN_LOUD_SPEAKER);
+  m_Peripherals.initPinDoorState(PIN_DOOR);
+  m_Peripherals.initPinLedScheduleState(PIN_LED_SCHEDULE);
+
   m_ViewsManager.Peripherals = &m_Peripherals;
   m_ViewsManager.setCurrentView(new ViewMain(&m_ViewsManager));
 }

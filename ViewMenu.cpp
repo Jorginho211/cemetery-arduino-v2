@@ -1,14 +1,14 @@
 #include "ViewMenu.h"
 
 // Vistas requeridas
+#include "ViewMain.h"
 #include "ViewConfigDate.h"
 #include "ViewConfigLoudSpeaker.h"
 #include "ViewConfigOpenCloseDoor.h"
 #include "ViewConfigWeekDays.h"
 
-ViewMenu::ViewMenu(ViewsManager *viewsManager, ViewMain *viewMain) {
+ViewMenu::ViewMenu(ViewsManager *viewsManager) {
   this->m_ViewsManager = viewsManager;
-  this->m_ViewMain = viewMain;
 
   this->m_MenuOption = MENU_CONF_DATE;
 
@@ -53,12 +53,11 @@ void ViewMenu::buttonPressed(NavigationAction pressed) {
       break;
   }
 
-  delete this->m_ViewMain;
   this->m_ViewsManager->setCurrentView(nextView);
 }
 
 void ViewMenu::update(DateTime now) {
-  m_ViewMain->update(now); // Se hacen las mismas operaciones que en la vista principal
+  this->m_ViewsManager->mainTask(now);
 }
 
 void ViewMenu::draw() {
