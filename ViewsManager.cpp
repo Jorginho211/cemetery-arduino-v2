@@ -49,7 +49,7 @@ void ViewsManager::checkOpenCloseDoor(DateTime now) {
 
   // Se esta en modo manual desabilitase todo
   if(!this->Peripherals->getSystemState()) {
-    //mp3_stop(); para reproduccion
+    this->Peripherals->SoundPlayer.stop();
     this->Peripherals->setLedScheduleState(false);
     this->Peripherals->setLoudSpeakerState(false);
     this->Peripherals->setDoorState(false);
@@ -77,11 +77,9 @@ void ViewsManager::checkOpenCloseDoor(DateTime now) {
 
   // Operacions para ver se necesitamos abrir ou pechar o portal
   if(!this->Peripherals->getIsDoorOpen() && isInSchedule){
-    Serial.println("ABRIR");
     this->performOpenCloseTask(true);
   }
   else if(this->Peripherals->getIsDoorOpen() && !isInSchedule){
-    Serial.println("PECHAR");
     this->performOpenCloseTask(false);
   }
 
@@ -90,11 +88,12 @@ void ViewsManager::checkOpenCloseDoor(DateTime now) {
 
   // Operacions para saber se temos que poñer a megafonia a funcionar avisando do peche
   int differenceLoudSpeakerNow = loudSpeakerMinutes - currentMinutes;
-  bool needToPlayLoudSpeaker =  differenceLoudSpeakerNow <= 0 && differenceCloseDoorNow > 0;
+  bool needToPlayLoudSpeaker = differenceLoudSpeakerNow <= 0 && differenceCloseDoorNow > 0;
   if(!this->Peripherals->getLoudSpeakerState() && needToPlayLoudSpeaker) {
     this->performLoudSpeakerTask(true);
   }
   else if(this->Peripherals->getLoudSpeakerState()){
+    Serial.println("FUERA");
     this->performLoudSpeakerTask(false);
   }
 }
@@ -104,7 +103,6 @@ void ViewsManager::performOpenCloseTask(bool isOpenProcess) {
   unsigned long lastDifferenceMillis = currentMillis - this->m_LastPerformOpenCloseTaskMillis;
   bool isPerformingTask = this->m_LastPerformOpenCloseTaskMillis > 0;
 
-  Serial.println(this->m_LastPerformOpenCloseTaskMillis);
   if(!isPerformingTask) { 
     this->m_LastPerformOpenCloseTaskMillis = currentMillis;
     this->Peripherals->setDoorState(true);
@@ -119,24 +117,26 @@ void ViewsManager::performOpenCloseTask(bool isOpenProcess) {
 
 void ViewsManager::performLoudSpeakerTask(bool startingLoudSpeaker) {
   unsigned long currentMillis = millis();
-  unsigned long lastDifferenceMillis = currentMillis - this->m_LastPerformLoudSpeakerTaskMillis;
-  bool isPerformingTask = this->m_LastPerformLoudSpeakerTaskMillis == 0;
 
-  if(startingLoudSpeaker) { // 3 Segundos
+  if(startingLoudSpeaker) {
+    Serial.println("AQU2");
     this->Peripherals->setLoudSpeakerState(true);
     delay(10);
-    // mp3_play(1);
-    this->m_LastPerformLoudSpeakerTaskMillis = 0;
+    this->Peripherals->SoundPlayer.play(1);
+    this->m_LastPerformLoudSpeakerTaskMillis = currentMillis;
     return;
   }
 
-  //mp3_get_state();
-  //int state = mp3_wait_state();
-  int state = 255;
-  if(state == 255 && lastDifferenceMillis >= 5 * 60 * 1000) { // Repetir cada 5 min despues de que ha acabado
-    // mp3_play(1);     
+  unsigned long lastDifferenceMillis = currentMillis - this->m_LastPerformLoudSpeakerTaskMillis;
+
+  bool isPlaying = this->Peripherals->SoundPlayer.isPlaying();
+  Serial.println(lastDifferenceMillis);
+  if(!isPlaying && lastDifferenceMillis >= 5 * 60 * 1000) { // Repetir cada 5 min despues de que ha acabado
+    Serial.println("AQU4");
+    this->Peripherals->SoundPlayer.play(1);  
   }
-  else if (state != 255) {
+  else if (isPlaying) {
+    Serial.println("AQU5");
     this->m_LastPerformLoudSpeakerTaskMillis = currentMillis;
   }
 }

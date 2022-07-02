@@ -28,9 +28,5 @@ void SoundPlayer::stop() {
 
 bool SoundPlayer::isPlaying() {
   mp3_get_state();
-  Serial.println("AQUI3");
-  int state = mp3_wait_state();
-  Serial.println("AQUI4");
-  Serial.println(String(state));
-  return state != 255;
+  return mp3_wait_state() != 255;
 }
