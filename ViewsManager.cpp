@@ -140,3 +140,34 @@ void ViewsManager::performLoudSpeakerTask(bool startingLoudSpeaker) {
     this->m_LastPerformLoudSpeakerTaskMillis = currentMillis;
   }
 }
+
+bool ViewsManager::syncFestives() {
+  Response ret = this->Peripherals->Sim900->get(URL_GET_FESTIVES);
+  if(!ret.success || ret.status != 200)
+    return false;
+
+  // Exemplo de ret.content: 
+  // 2201010601140415041705260524062507150812100111111106120812 
+  // Indices 0-1 representa o ano
+  // Resto de indices son dia e mes: ddmmddmmddmm....
+
+  int year = 2000 + ret.content.substring(0, 2).toInt();
+  String daysMonths = ret.content.substring(2);
+  uint8_t totalFestives = daysMonths.length() / 4; // Cada festivo esta formado por 4 caracteres
+
+  DataManager *dataManager = DataManager::getInstance();
+  dataManager->setNumberOfFestives(totalFestives);
+
+  uint8_t numberOfFestive = 0;
+  for(uint8_t i = 0; i < daysMonths.length(); i += 4) {
+    uint8_t day = daysMonths.substring(i, i + 2).toInt();
+    uint8_t month = daysMonths.substring(i + 2, i + 4).toInt();
+
+    DateTime festive = DateTime(year, month, day, 0, 0, 0);
+
+    dataManager->setFestiveDate(numberOfFestive, festive);
+    numberOfFestive += 1;
+  }
+
+  return true;
+}

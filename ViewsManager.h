@@ -4,6 +4,7 @@
   #include "View.h"
   #include "Peripherals.h"
   #include "DataManager.h"
+  #include "config.h"
 
   class ViewsManager: public View {
     public:
@@ -12,6 +13,7 @@
       void draw();
       void setCurrentView(View *view);
       void mainTask(DateTime now);
+      bool syncFestives();
 
       Peripherals *Peripherals;
     private:

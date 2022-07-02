@@ -46,3 +46,41 @@ bool DataManager::getChangedSummerWinterTime() {
 void DataManager::setChangedSummerWinterTime(bool changedSummerWinterTime) {
   EEPROM.write(7, (uint8_t) changedSummerWinterTime);
 }
+
+// ----------------------------------------------------------------------------
+// Deixanse os bytes 8 e 9 sen usar
+// Reservanse os bytes do 10 ao 30 para a xestion de festivos
+
+uint8_t DataManager::getNumberOfFestives() {
+  return (uint8_t) EEPROM.read(10);
+}
+
+void DataManager::setNumberOfFestives(uint8_t numberOfFestives) {
+  EEPROM.write(10, numberOfFestives);
+}
+
+DateTime DataManager::getFestiveDate(uint8_t festiveIndex) {
+  uint8_t dayIndex = 12 + festiveIndex * 2;
+  uint8_t monthIndex = dayIndex + 1;
+
+  uint8_t year = EEPROM.read(11);
+  uint8_t day = EEPROM.read(dayIndex);
+  uint8_t month = EEPROM.read(monthIndex);
+
+  int completeYear = 2000 + year; // Consideramos que las fechas empiezan en el año 2000
+  return DateTime(year, month, day, 0, 0, 0);
+}
+
+void DataManager::setFestiveDate(uint8_t festiveIndex, DateTime festive) {
+  uint8_t dayIndex = 12 + festiveIndex * 2;
+  uint8_t monthIndex = dayIndex + 1;
+  uint8_t year = festive.year() - 2000;
+
+  if (festiveIndex == 0) {
+    EEPROM.write(11, year);
+  }
+
+  EEPROM.write(dayIndex, festive.day());
+  EEPROM.write(monthIndex, festive.month());
+}
+// ----------------------------------------------------------------------------
