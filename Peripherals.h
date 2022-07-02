@@ -5,6 +5,7 @@
   #include <RTClib.h>
   #include <LiquidCrystal_I2C.h>
   #include "SoundPlayer.h"
+  #include "SIM900.h"
 
   class Peripherals {
     public:
@@ -15,6 +16,7 @@
       void initPinDoorState(uint8_t pin);
       void initPinLedScheduleState(uint8_t pin);
       void initSoundPlayer(HardwareSerial &serial);
+      void initSIM900(HardwareSerial &serial, String apn, String user, String password, uint16_t baudRate);
 
       bool getSystemState();
       bool getLoudSpeakerState();
@@ -28,6 +30,7 @@
       RTC_DS3231 Rtc;
       LiquidCrystal_I2C *Lcd;
       SoundPlayer SoundPlayer;
+      SIM900 *Sim900;
       bool m_IsDoorOpen; // Ñapa para o estado da porta
     private:
       uint8_t m_PinSystemState;

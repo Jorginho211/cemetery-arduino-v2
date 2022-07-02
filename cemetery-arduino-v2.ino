@@ -14,10 +14,9 @@
 Peripherals m_Peripherals;
 ViewsManager m_ViewsManager;
 
-LiquidCrystal_I2C lcd(LCD_ADDRESS, LCD_COLUMNS, LCD_ROWS);
-
 void setup() {
   Serial.begin(9600);
+
   m_NavigationReader->init();
   m_Peripherals.initRtc();
   m_Peripherals.initLcd(LCD_ADDRESS, LCD_COLUMNS, LCD_ROWS);
@@ -25,6 +24,8 @@ void setup() {
   m_Peripherals.initPinLoudSpeakerState(PIN_LOUD_SPEAKER);
   m_Peripherals.initPinDoorState(PIN_DOOR);
   m_Peripherals.initPinLedScheduleState(PIN_LED_SCHEDULE);
+  m_Peripherals.initSoundPlayer(Serial2);
+  m_Peripherals.initSIM900(Serial3, SIM900_APN, SIM900_USER, SIM900_PWD, SIM900_SERIAL_BAUD);
 
   m_ViewsManager.Peripherals = &m_Peripherals;
   m_ViewsManager.setCurrentView(new ViewMain(&m_ViewsManager));

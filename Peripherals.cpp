@@ -49,6 +49,11 @@ void Peripherals::initSoundPlayer(HardwareSerial &serial) {
   this->SoundPlayer.init(serial);
 }
 
+void Peripherals::initSIM900(HardwareSerial &serial, String apn, String user, String password, uint16_t baudRate) {
+  this->Sim900 = new SIM900(apn, user, password, baudRate);
+  this->Sim900->init(serial);
+}
+
 bool Peripherals::getSystemState() {
   return digitalRead(this->m_PinSystemState) == LOW;
 }
