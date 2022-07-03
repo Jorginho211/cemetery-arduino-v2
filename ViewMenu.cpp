@@ -6,6 +6,7 @@
 #include "ViewConfigLoudSpeaker.h"
 #include "ViewConfigOpenCloseDoor.h"
 #include "ViewConfigWeekDays.h"
+#include "ViewFestives.h"
 
 ViewMenu::ViewMenu(ViewsManager *viewsManager) {
   this->m_ViewsManager = viewsManager;
@@ -47,6 +48,9 @@ void ViewMenu::buttonPressed(NavigationAction pressed) {
       break;
     case MENU_CONF_DAYS_OF_WEEK:
       nextView = new ViewConfigWeekDays(this->m_ViewsManager);
+      break;
+    case MENU_CONF_FESTIVES:
+      nextView = new ViewFestives(this->m_ViewsManager);
       break;
     case MENU_GO_BACK:
       nextView = new ViewMain(this->m_ViewsManager);
