@@ -88,7 +88,7 @@ void ViewFestives::draw() {
     peripherals->Lcd->print("Sinc Finalizada ");
     return;
   }
-  else if(this->m_SyncStep == FESTIVES_SYNC_SUCCESS) {
+  else if(this->m_SyncStep == FESTIVES_SYNC_ERROR) {
     peripherals->Lcd->setCursor(0, 2);
     peripherals->Lcd->print("Erro Sincronizando");
     return;
