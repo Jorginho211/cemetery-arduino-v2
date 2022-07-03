@@ -82,7 +82,7 @@ Response SIM900::waitForResponse(String validation, uint16_t timeout) {
 
       startTime = millis();
     }
-  } while(millis() - startTime > timeout || !response.success || readed);
+  } while((millis() - startTime < timeout && !response.success) || readed);
 
   return response;
 }
