@@ -142,7 +142,7 @@ void ViewsManager::performLoudSpeakerTask(bool startingLoudSpeaker) {
 }
 
 bool ViewsManager::syncFestives() {
-  Response ret = this->Peripherals->Sim900->get(URL_GET_FESTIVES);
+  Response ret = this->Peripherals->NetworkAdapter->get(URL_GET_FESTIVES);
   if(!ret.success || ret.status != 200)
     return false;
 

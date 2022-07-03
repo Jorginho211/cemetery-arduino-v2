@@ -25,7 +25,7 @@ void setup() {
   m_Peripherals.initPinDoorState(PIN_DOOR);
   m_Peripherals.initPinLedScheduleState(PIN_LED_SCHEDULE);
   m_Peripherals.initSoundPlayer(Serial2);
-  m_Peripherals.initSIM900(Serial3, SIM900_APN, SIM900_USER, SIM900_PWD, SIM900_SERIAL_BAUD);
+  m_Peripherals.initNetworkAdapter(Serial3, SIM900_APN, SIM900_USER, SIM900_PWD, SIM900_SERIAL_BAUD);
 
   m_ViewsManager.Peripherals = &m_Peripherals;
   m_ViewsManager.setCurrentView(new ViewMain(&m_ViewsManager));

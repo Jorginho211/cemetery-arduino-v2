@@ -2,18 +2,11 @@
   #define SIM900_H
 
   #include<Arduino.h>
-  #include<SoftwareSerial.h>
+  #include "NetworkAdapter.h"
 
   #define SIM900_DEFAULT_TIMEOUT 5000
 
-  class Response {
-    public:
-      bool success;
-      uint16_t status;
-      String content;
-  };
-
-  class SIM900 {
+  class SIM900: public NetworkAdapter {
     public:
       SIM900(String apn, String user, String password, uint16_t baudRate);
       void init(HardwareSerial &serial);
