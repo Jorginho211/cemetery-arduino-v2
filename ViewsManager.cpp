@@ -68,7 +68,6 @@ void ViewsManager::checkChangeSummerWinterTime(DateTime now) {
 void ViewsManager::checkOpenCloseDoor(DateTime now) {
   DataManager *dataManager = DataManager::getInstance();
 
-
   // Se esta en modo manual desabilitase todo
   if(!this->Peripherals->getSystemState()) {
     this->Peripherals->SoundPlayer.stop();
@@ -78,8 +77,14 @@ void ViewsManager::checkOpenCloseDoor(DateTime now) {
     return;
   }    
 
-  bool isDayNotOpenDoor = (dataManager->getWeekDays() >> now.dayOfTheWeek()) & 0x01;
-  if(!isDayNotOpenDoor) {
+  // Comprobase se é dos dias da semana configurados para abrir ou é festivo
+  bool isDayOpenDoor = (dataManager->getWeekDays() >> now.dayOfTheWeek()) & 0x01;
+  for (uint8_t festiveIndex = 0; festiveIndex < dataManager->getNumberOfFestives() && !isDayOpenDoor; festiveIndex += 1) {
+    DateTime festive = dataManager->getFestiveDate(festiveIndex);
+    isDayOpenDoor = festive.day() == now.day() && festive.month() == now.month();
+  }
+
+  if(!isDayOpenDoor) {
     if (this->Peripherals->getIsDoorOpen()) {
       this->performOpenCloseTask(false);
     }
