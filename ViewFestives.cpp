@@ -61,7 +61,7 @@ void ViewFestives::buttonPressed(NavigationAction pressed) {
 
 void ViewFestives::update(DateTime now) {
   if (this->m_SyncStep == FESTIVES_SYNC_SYNCING) {
-    if(this->m_ViewsManager->syncFestives())
+    if(this->m_ViewsManager->syncFestives(now))
       this->m_SyncStep = FESTIVES_SYNC_SUCCESS;
     else
       this->m_SyncStep = FESTIVES_SYNC_ERROR;

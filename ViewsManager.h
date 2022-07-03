@@ -13,10 +13,11 @@
       void draw();
       void setCurrentView(View *view);
       void mainTask(DateTime now);
-      bool syncFestives();
+      bool syncFestives(DateTime now);
 
       Peripherals *Peripherals;
     private:
+      void checkIsNeededSyncFestives(DateTime now);
       void checkChangeSummerWinterTime(DateTime now);
       void checkOpenCloseDoor(DateTime now);
       void performOpenCloseTask(bool isOpenProcess);
@@ -25,5 +26,6 @@
       View *m_CurrentView = nullptr;
       unsigned long m_LastPerformOpenCloseTaskMillis = 0;
       unsigned long m_LastPerformLoudSpeakerTaskMillis = 0;
+      uint8_t m_SyncFestivesRetries = 0;
   };
 #endif

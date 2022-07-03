@@ -20,8 +20,30 @@ void ViewsManager::setCurrentView(View *view) {
 }
 
 void ViewsManager::mainTask(DateTime now) {
+  this->checkIsNeededSyncFestives(now);
   this->checkChangeSummerWinterTime(now);
   this->checkOpenCloseDoor(now);
+}
+
+void ViewsManager::checkIsNeededSyncFestives(DateTime now) {
+  // Reintentase x veces para evitar o interbloqueo
+  if(this->m_SyncFestivesRetries >= 5) return;
+  
+  // So se fai o 1 de xaneiro
+  bool isFirstOfJanuary = now.month() == 1 && now.day() == 1;
+  if(!isFirstOfJanuary)
+    return;
+
+  DataManager *dataManager = DataManager::getInstance();
+  DateTime festive = dataManager->getFestiveDate(0);
+
+  // Comparase se o ano do festivo gardado e maior ou igual evitase desta 
+  // forma que se esta mal a fecha ou se perdeu a hora este en bucle
+  if(festive.year() >= now.year())
+    return;
+
+  if(!this->syncFestives(now))
+    this->m_SyncFestivesRetries += 1;
 }
 
 void ViewsManager::checkChangeSummerWinterTime(DateTime now) {
@@ -141,7 +163,7 @@ void ViewsManager::performLoudSpeakerTask(bool startingLoudSpeaker) {
   }
 }
 
-bool ViewsManager::syncFestives() {
+bool ViewsManager::syncFestives(DateTime now) {
   Response ret = this->Peripherals->NetworkAdapter->get(URL_GET_FESTIVES);
   if(!ret.success || ret.status != 200)
     return false;
@@ -152,6 +174,10 @@ bool ViewsManager::syncFestives() {
   // Resto de indices son dia e mes: ddmmddmmddmm....
 
   int year = 2000 + ret.content.substring(0, 2).toInt();
+  // Se o webservice non ten os festivos actuales retornase para evitar sobreescribir a eeprom
+  if(year != now.year())
+    return false;
+
   String daysMonths = ret.content.substring(2);
   uint8_t totalFestives = daysMonths.length() / 4; // Cada festivo esta formado por 4 caracteres
 
@@ -169,5 +195,7 @@ bool ViewsManager::syncFestives() {
     numberOfFestive += 1;
   }
 
+  // Resetease os reintentos porque se completou correctamente
+  this->m_SyncFestivesRetries = 0;
   return true;
 }
